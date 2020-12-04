@@ -83,12 +83,15 @@ inputs = scaler.transform(testing_with)
 inputs.shape[0]
 
 # convert the data to be 3D array.
-X_test = [], y_test = []
+X_test = []
+y_test = []
+
 for i in range(window, inputs.shape[0]):
     X_test.append(inputs[i-window:i])
     y_test.append(inputs[i, 0])
 X_test, y_test = np.array(X_test), np.array(y_test)
 X_test.shape, y_test.shape
+
 
 # making prediction over the test data.
 y_pred = model.predict(X_test)  # y_pred with y_test
