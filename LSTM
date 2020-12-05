@@ -39,7 +39,7 @@ y_train = []
 
 for i in range(window, training.shape[0]):
     X_train.append(training[i-window:i])
-    y_train.append(training[i, 0])
+    y_train.append(training[i, :])
     
 X_train, y_train = np.array(X_train), np.array(y_train) 
 X_train.shape, y_train.shape 
@@ -51,7 +51,7 @@ from tensorflow.keras.layers import Dense, LSTM, Dropout
 model = Sequential()
 model.add(LSTM(units = 50, activation = 'relu' ,input_shape = (X_train.shape[1], 529)))
 model.add(Dropout(0.1))
-model.add(Dense(units = 1))
+model.add(Dense(units = 529))
 model.summary()
 
 # compile the model
@@ -69,8 +69,8 @@ my_pred = model.predict(X_train) # my_pred with y_train.# Visualising the result
 # plot the training with the prediction over the training set.
 import matplotlib.pyplot as plt
 plt.figure(figsize=(14,5))
-plt.plot(y_train, color = 'yellow', label = 'Real Bandwidth')
-plt.plot(my_pred, color = 'black',label = 'Predicted Bandwidth')
+plt.plot(y_train[0,:50], color = 'yellow', label = 'Real Bandwidth')
+plt.plot(my_pred[0,:50], color = 'black',label = 'Predicted Bandwidth')
 plt.title('Bandwidth VS time')
 plt.xlabel('Time')
 plt.ylabel('Bandwidth')
@@ -88,7 +88,7 @@ y_test = []
 
 for i in range(window, inputs.shape[0]):
     X_test.append(inputs[i-window:i])
-    y_test.append(inputs[i, 0])
+    y_test.append(inputs[i, :])
 X_test, y_test = np.array(X_test), np.array(y_test)
 X_test.shape, y_test.shape
 
@@ -99,8 +99,8 @@ y_pred.shape
 
 # plot the result
 plt.figure(figsize=(14,6))
-plt.plot(y_test, color = 'red', label = 'Real Bandwidth')
-plt.plot(y_pred, color = 'blue', label = 'Predicted Bandwidth')
+plt.plot(y_test[0,:50], color = 'red', label = 'Real Bandwidth')
+plt.plot(y_pred[0,:50], color = 'blue', label = 'Predicted Bandwidth')
 plt.title('Bandwidth VS time')
 plt.xlabel('Time')
 plt.ylabel('Bandwidth')
